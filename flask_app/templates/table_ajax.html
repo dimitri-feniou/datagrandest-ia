@@ -1,0 +1,88 @@
+{% extends "base_table.html" %}
+  {% block content %}
+  <div class="table-responsive-md">
+    <table id="data" class="table">
+      <thead>
+        <tr>
+          <th>id_fiche_select</th>
+          <th>url_fiche_select</th>
+          <th>id_fiche_similar</th>
+          <th>url_document_similair</th>
+          <th>cosine_similarity</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  
+  {% endblock %}
+    {% block scripts %}
+      <script>
+          $(document).ready(function () {
+            var groupColumn = 2;
+            var table = $('#data').DataTable({
+              
+              ajax: {url : '/api/data',
+              dataSrc : ''},
+                
+                columns: [
+                {data: "id_fiche_select"},
+                {data: "url_fiche_select",
+                // Add href link on data in table
+                "render": function(data, type, row, meta){
+            if(type === 'display'){
+                data = '<a href="' + data + '">' + data + '</a>';
+            }
+
+            return data;
+         }},
+                {data: "id_fiche_similar"},
+                {data: "url_document_similair",
+                 // Add href link on data in table
+                "render": function(data, type, row, meta){
+            if(type === 'display'){
+                data = '<a href="' + data + '">' + data + '</a>';
+            }
+
+            return data;
+         }},
+                {data: "cosine_similarity"}
+                ],
+              columnDefs: [{ visible: false, targets: groupColumn }],
+              order: [[groupColumn, 'asc']],
+              displayLength: 25,
+              drawCallback: function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: 'current' }).nodes();
+            var last = null;
+ 
+            api
+                .column(groupColumn, { page: 'current' })
+                .data()
+                .each(function (group, i) {
+                    if (last !== group) {
+                        $(rows)
+                            .eq(i)
+                            .before('<tr class="group"><td colspan="5">' + group + '</td></tr>');
+ 
+                        last = group;
+                    }
+            
+                
+            });
+        },
+      });
+          // Order by the grouping
+    // $('#example tbody').on('click', 'tr.group', function () {
+    //     var currentOrder = table.order()[0];
+    //     if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
+    //         table.order([groupColumn, 'desc']).draw();
+    //     } else {
+    //         table.order([groupColumn, 'asc']).draw();
+    //     }
+    // });
+  });
+        </script>
+    {% endblock %}
+  </body>
+</html>

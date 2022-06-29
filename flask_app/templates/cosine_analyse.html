@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %} Documents similaires {% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Roboto:ital,wght@0,100;0,300;0,400;1,100;1,300;1,400&display=swap" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/cosine.css') }}"
+    />
+
+  </head>
+  <body>
+    <div class="gradient">
+      <nav class="navbar navbar-expand-sm">
+        <a class="navbar-brand text-light" href="https://www.datagrandest.fr">
+          <img
+            src="https://www.datagrandest.fr/public/solaire/Logo_Data_GrandEst_Blanc.png"
+            alt=""
+            class="d-inline-block mr-1"
+          />
+          <span> Datagrandest NLP Analysis </span>
+        </a>
+        <ul class="navbar-nav ms-auto flex-nowrap">
+          <li class="nav-item text-light">
+            <a href="/" class="nav-link active text-light">Accueil</a>
+          </li>
+          <li class="nav-item text-light">
+            <a href="/cosinus_analyse" class="nav-link text-light"
+              >Documents Similaire</a
+            >
+          <li class="nav-item text-light">
+              <a href="/table_ajax" class="nav-link text-light"
+                >Table Similarité</a>
+          </li>
+          </li>
+          <li class="nav-item text-light">
+            <a href="/topics_modelling_input" class="nav-link text-light"
+              >Analyse Thèmes</a
+            >
+          </li>
+          {% if current_user.is_authenticated %}
+          <li class="nav-item text-light">
+            <a href="/logout" class="nav-link disabled">Déconnexion</a>  
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-10 col-centered">
+            <div id="url-form" class="mt-3 card p-3">
+              <div class="card-header">
+                <div class="text text-center mt-3 mb-5">
+                  <h3>Analyse des documents similaires</h3>
+                </div>
+              </div>
+              <div class="card-body ">
+                <form role="form" method="POST" action="/resultat",method="post">
+                  <div class="row align-items-end">
+                    <label for="Label URL">Sélectionné l'URL d'une fiche</label>
+                    <div
+                      class="form-group col-10 col-md-10 my-flex"
+                      width="80%"
+                    >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="url"
+                        placeholder="Entrer un URL"
+                        name="url"
+                      />
+                      <div
+                        class="from button col-2 col-md-2 d-flex align-items-end"
+                      >
+                        <button type="submit" class="btn btn-primary">
+                          Lancer l'analyse
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div class="card-body ">
+                  <h4>Document sélectionné</h4>
+                  <p class="text-justify">{{ document_return }}</p>
+                </div>
+              </div>
+            </div>
+            <br />
+          </div>
+          {% for error in errors %}
+          <h4>{{ error }}</h4>
+          {% endfor %} {% if results %}
+          <div class="card">
+            <div class="card-body ">
+              <h4>Documents Similaire</h4>
+            </div>
+            {{ pagination.info }}
+            {{ pagination.links }}
+            {% for result in results %}
+            {{ loop.index + (page - 1) * per_page }}
+            <div class="card-body ">
+              <h5>Document {{ result.Documentid }}:</h5>
+              <p text-justify>{{ result.documents }}</p>
+              <a class="btn btn-primary" href="{{ result.url }}" role="button"
+                >Visualiser la fiche</a
+              >
+              <button type="button" class="btn btn-outline-primary">
+                Similarité : {{ result.cosine_similary }}
+              </button>
+            </div>
+            {% endfor %}
+          </div>
+          {{ pagination.links }}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

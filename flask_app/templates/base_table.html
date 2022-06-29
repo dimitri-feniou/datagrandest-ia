@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
+    <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/base_table.css') }}"
+  />
+  </head>
+  <body>
+    <div class="gradient">
+      <nav class="navbar navbar-expand-sm">
+        <a class="navbar-brand text-light" href="https://www.datagrandest.fr">
+          <img
+            src="https://www.datagrandest.fr/public/solaire/Logo_Data_GrandEst_Blanc.png"
+            alt=""
+            class="d-inline-block mr-1"
+          />
+          <span> Datagrandest NLP Analysis </span>
+        </a>
+        <ul class="navbar-nav ms-auto flex-nowrap">
+          <li class="nav-item text-light">
+            <a href="/" class="nav-link active text-light">Accueil</a>
+          </li>
+          <li class="nav-item text-light">
+            <a href="/cosinus_analyse" class="nav-link text-light"
+              >Documents Similaire</a
+            >
+          <li class="nav-item text-light">
+              <a href="/table_ajax" class="nav-link text-light"
+                >Table Similarité</a>
+          </li>
+          </li>
+          <li class="nav-item text-light">
+            <a href="/topics_modelling_input" class="nav-link text-light"
+              >Analyse Thèmes</a
+            >
+          </li>
+          {% if current_user.is_authenticated %}
+          <li class="nav-item text-light">
+            <a href="/logout" class="nav-link disabled">Déconnexion</a>  
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+    <div class="container">
+      <h1>Table Similarity</h1>
+      <hr>
+      <a href="/table_algorithm_input"class="btn btn-outline-primary btn-sm" role="button" aria-pressed="true">Chargement de l'algorithme de similarité</a>
+      {% block content %}{% endblock %}
+    </div>
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

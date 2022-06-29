@@ -1,0 +1,65 @@
+/* NAV BAR */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+  }
+  img {
+    max-height: 55px;
+  }
+  .navbar-brand div span
+{
+width: 100%;
+display: block;
+font-size: 50%;
+font-weight: 200;
+text-align: right;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 4px;
+   }
+    .card-body {
+margin-top: 20px;
+}
+
+  .brand-logo {
+    display: inline-flex !important;
+  }
+  img {
+    max-height: 55px;
+  }
+  .my-flex {
+display: flex;
+align-items: flex-end;
+justify-content: space-between;
+}
+
+.my-flex .input-container {
+flex-grow: 1;
+}
+
+.my-flex button {
+margin-left: 10px;
+}
+.gradient {
+    color :rgb(0, 0, 0);
+    background-color: #8BC6EC;
+    background-image: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(18,40,85,1) 28%, rgba(51,122,183,1) 100%);
+    }
+    .pagination-page-info {
+      padding: .6em;
+      padding-left: 0;
+      width: 40em;
+      margin: .5em;
+      margin-left: 0;
+      font-size: 12px;
+  }
+  .pagination-page-info b {
+      color: black;
+      background: #6aa6ed;
+      padding-left: 2px;
+      padding: .1em .25em;
+      font-size: 150%;
+  }
